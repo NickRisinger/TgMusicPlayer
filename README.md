@@ -5,6 +5,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 First, run the development server:
 
 ```bash
+ngrok config add-authtoken 2FiiUK6mwGa4FaibZgkXOjMUqIW_JmBU99BHhxjT4UyT3daZ
+```
+
+```bash
 npm run dev
 # or
 yarn dev
