@@ -1,40 +1,43 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 
 import WebApp from '@twa-dev/sdk';
 
+import qala from './music.mp3';
+import { useEffect, useRef } from 'react';
+
 function App() {
-  const [count, setCount] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const play = () => audioRef.current!.play();
+  const pause = () => audioRef.current!.pause();
+  const setVolume = (value: number) => (audioRef.current!.volume = value);
+
+  useEffect(() => {
+    return () => {
+      pause();
+    };
+  }, []);
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <audio ref={audioRef} src={qala}></audio>
+        <div>
+          <button onClick={play}>Play</button>
+          <button onClick={pause}>Pause</button>
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            defaultValue="1"
+            onChange={(e) => setVolume(Number(e.target.value))}
+          />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
       <div className="card">
         <button
-          onClick={() =>
-            WebApp.showAlert(`Hello World! Current count is ${count}`)
-          }
+          onClick={() => WebApp.showAlert(`Hello World! Current count is`)}
         >
           Show Alert
         </button>
